@@ -48,6 +48,24 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
+  pickImage() async {
+    var image = await picker.getImage(source: ImageSource.camera);
+    if (image == null) return null;
+    setState(() {
+      _image = File(image.path);
+    });
+    classifyImage(_image);
+  }
+
+  pickGalleryImage() async {
+    var image = await picker.getImage(source: ImageSource.gallery);
+    if (image == null) return null;
+    setState(() {
+      _image = File(image.path);
+    });
+    classifyImage(_image);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +79,7 @@ class _HomeState extends State<Home> {
               height: 85,
             ),
             Text(
-              "App  Convulation Neural Network",
+              "A ML Based APP Dev by Sayeed",
               style: TextStyle(color: Color(0xFFEEDA28), fontSize: 15),
             ),
             SizedBox(
@@ -89,14 +107,36 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     )
-                  : Container(),
+                  : Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 250,
+                            child: Image.file(_image),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _output != null
+                              ? Text(
+                                  '$_output[0]["label"]',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                )
+                              : Container(),
+                          SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ),
+                    ),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: pickImage,
                     child: Container(
                       width: MediaQuery.of(context).size.width - 150,
                       alignment: Alignment.center,
@@ -116,7 +156,7 @@ class _HomeState extends State<Home> {
                     height: 10,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: pickGalleryImage,
                     child: Container(
                       width: MediaQuery.of(context).size.width - 150,
                       alignment: Alignment.center,

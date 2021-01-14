@@ -11,11 +11,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Cat vs Dog"),
-          centerTitle: true,
-          backgroundColor: Colors.purple,
-        ),
         body: MySplash(),
       ),
     );
